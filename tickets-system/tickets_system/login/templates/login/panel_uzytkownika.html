@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel</title>
+</head>
+<body>
+    <div>
+        <h2>Witaj, {{ username }}!</h2>
+        <a href="{% url 'logout' %}">Wyloguj</a>
+    </div>
+
+    <div>
+        <h3>Moje zgłoszenia:</h3>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tytuł</th>
+                    <th>Status</th>
+                    <th>Priorytet</th>
+                    <th>Data</th>
+                    <th>Kto zgłosił</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for zgłoszenie in zgloszenia %}
+                <tr>
+                    <td>{{ zgloszenie.id }}</td>
+                    <td>{{ zgloszenie.title }}</td>
+                    <td>{{ zgloszenie.status }}</td>
+                    <td>{{ zgloszenie.priority }}</td>
+                    <td>{{ zgloszenie.date }}</td>
+                    <td>{{ zgloszenie.submitted_by.username }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <h3>Nowe zgłoszenie:</h3>
+        <form method="post" action="{% url 'panel_uzytkownika' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Nowe zgłoszenie</button>
+        </form>
+    </div>
+</body>
+</html>
